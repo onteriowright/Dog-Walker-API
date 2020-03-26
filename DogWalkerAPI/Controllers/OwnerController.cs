@@ -40,10 +40,8 @@ namespace DogWalkerAPI.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone, d.Name
+                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone
                         FROM Owner o
-                        LEFT JOIN Dog d
-                        ON o.Id = d.OwnerId
                         LEFT JOIN Neighborhood n
                         ON n.Id = o.NeighborhoodId";
 
@@ -88,13 +86,11 @@ namespace DogWalkerAPI.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone, d.Name
+                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone
                         FROM Owner o
-                        LEFT JOIN Dog d
-                        ON o.Id = d.OwnerId
                         LEFT JOIN Neighborhood n
                         ON n.Id = o.NeighborhoodId
-                        WHERE d.Id = @id";
+                        WHERE o.Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
 

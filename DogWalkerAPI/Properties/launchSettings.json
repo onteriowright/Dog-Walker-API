@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/dog",
+      "launchUrl": "api/owner",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "DogWalkerAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/dog",
+      "launchUrl": "api/owner",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

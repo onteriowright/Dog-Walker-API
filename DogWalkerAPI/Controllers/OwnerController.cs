@@ -40,7 +40,7 @@ namespace DogWalkerAPI.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone
+                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone, n.Name AS NeighborhoodName
                         FROM Owner o
                         LEFT JOIN Neighborhood n
                         ON n.Id = o.NeighborhoodId";
@@ -61,7 +61,7 @@ namespace DogWalkerAPI.Controllers
                             Neighborhood = new Neighborhood()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                                Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
                             }
                         };
 
@@ -86,7 +86,7 @@ namespace DogWalkerAPI.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone
+                        SELECT o.Id, o.Name, o.Address, o.NeighborhoodId, o.Phone, n.Name AS NeighborhoodName
                         FROM Owner o
                         LEFT JOIN Neighborhood n
                         ON n.Id = o.NeighborhoodId
@@ -110,7 +110,7 @@ namespace DogWalkerAPI.Controllers
                             Neighborhood = new Neighborhood()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                                Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
                             }
                         };
                         reader.Close();

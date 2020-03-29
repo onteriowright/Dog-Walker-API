@@ -57,7 +57,7 @@ namespace DogWalkerAPI
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             // Preceding code omitted.
             app.UseRouting();

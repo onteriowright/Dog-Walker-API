@@ -40,8 +40,10 @@ namespace DogWalkerAPI.Controllers
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Name, NeighborhoodId
-                        FROM Walker";
+                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Name AS NeighborhoodName
+                        FROM Walker w
+                        LEFT JOIN neighborhood n
+                        On w.NeighborhoodId = n.Id";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -53,7 +55,12 @@ namespace DogWalkerAPI.Controllers
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
-                            NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId"))
+                            NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
+                            Neighborhood = new Neighborhood()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
+                            }
                         };
 
                         walker.Add(newWalker);

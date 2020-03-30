@@ -32,7 +32,9 @@ namespace DogWalkerAPI.Controllers
 
         // Get all departments from the database
         [HttpGet]
-        public async Task<IActionResult> GET()
+        public async Task<IActionResult> GET(
+            [FromQuery] string name
+            )
         {
             using (SqlConnection conn = Connection)
             {
@@ -42,7 +44,14 @@ namespace DogWalkerAPI.Controllers
                     cmd.CommandText = @"
                         SELECT Id, Name
                         FROM Neighborhood
+                        WHERE 1 = 1
                         ";
+
+                    if (name != null)
+                    {
+                        cmd.CommandText += " AND Name LIKE @name";
+                        cmd.Parameters.Add(new SqlParameter("@name", "%" + name + "%"));
+                    }
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -92,7 +101,7 @@ namespace DogWalkerAPI.Controllers
                         neighborhood = new Neighborhood
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name"))                        
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
                         };
                         reader.Close();
 

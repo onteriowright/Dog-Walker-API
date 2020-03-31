@@ -30,13 +30,7 @@ namespace DogWalkerAPI
         {
             services.AddControllers();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DogWalkerAPI", Version = "v1" });
-            });
-
-            // Solve CORS issue
-
+            // CORS Fix
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -46,15 +40,19 @@ namespace DogWalkerAPI
                 });
             });
 
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DogWalkerAPI", Version = "v1" });
+            });
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,11 +62,16 @@ namespace DogWalkerAPI
                 app.UseHsts();
             }
 
+            //Enables CORS
             app.UseCors(MyAllowSpecificOrigins);
 
             // Removes Redirection warning
             // app.UseHttpsRedirection();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            //Enable Swagger UI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dog Walker API V1");

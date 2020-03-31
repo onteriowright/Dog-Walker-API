@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace DogWalkerAPI
@@ -27,10 +28,15 @@ namespace DogWalkerAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Solve CORS issue
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
             {
-                services.AddControllers();
-            }
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DogWalkerAPI", Version = "v1" });
+            });
+
+            // Solve CORS issue
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -46,6 +52,9 @@ namespace DogWalkerAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -60,10 +69,14 @@ namespace DogWalkerAPI
             // Removes Redirection warning
             // app.UseHttpsRedirection();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dog Walker API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             // Preceding code omitted.
             app.UseRouting();
-
-
 
             app.UseEndpoints(endpoints =>
             {
